@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "109089399966",
+    "project_id": "instra-app",
+    "storage_bucket": "instra-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109089399966:android:8146720d4982a30fa6478f",
+        "android_client_info": {
+          "package_name": "com.example.instragram_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFJwqU0Zdp0fxN_HKcBCeUQcDc8FN87q8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
