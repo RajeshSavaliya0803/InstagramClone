@@ -44,14 +44,14 @@ class AuthMethods {
             .uploadImageToStorage('profilePics', file, false);
 
         model.User user = model.User(
-          username: username,
-          uid: cred.user!.uid,
-          photoUrl: photoUrl,
-          email: email,
-          bio: bio,
-          followers: [],
-          following: [],
-        );
+            username: username,
+            uid: cred.user!.uid,
+            photoUrl: photoUrl,
+            email: email,
+            bio: bio,
+            followers: [],
+            following: [],
+            issave: false);
 
         // adding user in our database
         await _firestore

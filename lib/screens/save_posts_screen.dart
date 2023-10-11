@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:instragram_app/utils/colors.dart';
 import 'package:instragram_app/widgets/post_card.dart';
 
 class SaveAspostScreen extends StatefulWidget {
@@ -17,6 +18,10 @@ class _SaveAspostScreenState extends State<SaveAspostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: mobileBackgroundColor,
+        centerTitle: false,
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: postStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

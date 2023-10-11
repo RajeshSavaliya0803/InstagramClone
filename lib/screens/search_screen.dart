@@ -53,7 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
       isSelected = userSnap
           .data()!['followers']
           .contains(FirebaseAuth.instance.currentUser!.uid);
-      if (!mounted) {}
+      if (!mounted) return;
       setState(() {});
     } catch (e) {
       showSnackBar(

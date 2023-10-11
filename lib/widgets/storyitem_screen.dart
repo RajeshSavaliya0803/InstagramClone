@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:instragram_app/utils/gradient_ring_widget.dart';
 
 class StoryItem extends StatelessWidget {
   final String imageUrl;
@@ -19,37 +20,40 @@ class StoryItem extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Colors.yellowAccent, Colors.pinkAccent],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            WGradientRing(
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                imageBuilder: (context, imageProvider) => CircleAvatar(
+                  backgroundImage: imageProvider,
+                  radius: 30,
                 ),
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.transparent, width: 0.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  imageBuilder: (context, imageProvider) => CircleAvatar(
-                    backgroundImage: imageProvider,
-                    radius: 45,
-                  ),
-                  placeholder: (context, url) => const CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/2.png'),
-                    radius: 45,
-                  ),
-                  errorWidget: (context, url, error) => const CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/2.png'),
-                    radius: 45,
-                  ),
+                placeholder: (context, url) => const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/2.png'),
+                  radius: 30,
+                ),
+                errorWidget: (context, url, error) => const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/2.png'),
+                  radius: 30,
                 ),
               ),
             ),
+            // Container(
+            //   width: 70,
+            //   height: 70,
+            //   decoration: BoxDecoration(
+            //     gradient: const LinearGradient(
+            //       colors: [Colors.yellowAccent, Colors.pinkAccent],
+            //       begin: Alignment.topLeft,
+            //       end: Alignment.bottomRight,
+            //     ),
+            //     shape: BoxShape.circle,
+            //     border: Border.all(color: Colors.transparent, width: 0.0),
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(3.0),
+            //     child:
+            //   ),
+            // ),
             show == false
                 ? const SizedBox.shrink()
                 : Positioned(

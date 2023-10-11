@@ -33,6 +33,33 @@ class _ProfileScreenState extends State<ProfileScreen>
   late TabController tabController;
   ScrollController scrollController = ScrollController();
 
+  final List<IconData> starIcons = [
+    Icons.settings,
+    Icons.alternate_email_outlined,
+    Icons.browse_gallery_rounded,
+    Icons.archive,
+    Icons.qr_code_scanner_rounded,
+    Icons.bookmark_outlined,
+    Icons.supervisor_account,
+    Icons.credit_card,
+    Icons.merge_type_rounded,
+    Icons.close_fullscreen_sharp,
+    Icons.favorite_outline_outlined,
+  ];
+
+  final List iteam = [
+    "Settings and privacy",
+    "Threads",
+    "Your activity",
+    "Archive",
+    "QR code",
+    "Saved",
+    "Supervision",
+    "Orders and payments",
+    "Meta Veriffied",
+    "Close fiends",
+    "Favourites"
+  ];
   @override
   void initState() {
     super.initState();
@@ -94,6 +121,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                 userData['username'] ?? '',
               ),
               centerTitle: false,
+              actions: [
+                GestureDetector(
+                    onTap: () {
+                      openBottomSheet(context);
+                    },
+                    child: const Icon(Icons.menu, color: Colors.white)),
+                const SizedBox(width: 15)
+              ],
             ),
             body: Column(
               children: [
@@ -268,20 +303,20 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   },
                                 ),
 
-                                FollowButton(
-                                  text: 'Save Posts',
-                                  width: double.infinity,
-                                  backgroundColor: mobileBackgroundColor,
-                                  textColor: primaryColor,
-                                  borderColor: Colors.grey,
-                                  function: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return const SaveAspostScreen();
-                                      },
-                                    ));
-                                  },
-                                ),
+                                // FollowButton(
+                                //   text: 'Save Posts',
+                                //   width: double.infinity,
+                                //   backgroundColor: mobileBackgroundColor,
+                                //   textColor: primaryColor,
+                                //   borderColor: Colors.grey,
+                                //   function: () {
+                                //     Navigator.push(context, MaterialPageRoute(
+                                //       builder: (context) {
+                                //         return const SaveAspostScreen();
+                                //       },
+                                //     ));
+                                //   },
+                                // ),
                                 // Row(
                                 //   mainAxisAlignment:
                                 //       MainAxisAlignment.spaceEvenly,
@@ -625,6 +660,37 @@ class _ProfileScreenState extends State<ProfileScreen>
         radius: 33,
         backgroundColor: secondaryColor,
       ),
+    );
+  }
+
+  void openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builderContext) {
+        double bottomSheetHeight = MediaQuery.of(context).size.height / 1;
+        return SizedBox(
+          height: bottomSheetHeight,
+          child: ListView.builder(
+            itemCount: starIcons.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: Icon(starIcons[index]),
+                title: Text(iteam[index]),
+                onTap: () {
+                  if (index == 5) {
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const SaveAspostScreen();
+                      },
+                    ));
+                  }
+                },
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

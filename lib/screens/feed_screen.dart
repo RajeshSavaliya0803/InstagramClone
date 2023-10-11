@@ -1,21 +1,28 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instragram_app/screens/story_list.dart';
 import 'package:instragram_app/screens/your_story.dart';
 import 'package:instragram_app/utils/colors.dart';
 import 'package:instragram_app/utils/global_variable.dart';
+import 'package:instragram_app/utils/gradient_ring_widget.dart';
 import 'package:instragram_app/utils/utils.dart';
 import 'package:instragram_app/widgets/post_card.dart';
 import 'package:instragram_app/widgets/storyitem_screen.dart';
 
 class FeedScreen extends StatefulWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+  final String? uid;
+  const FeedScreen({Key? key, this.uid}) : super(key: key);
 
   @override
   State<FeedScreen> createState() => _FeedScreenState();
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  static String collectionDbName = 'instagram_stories_db';
+  CollectionReference dbInstance =
+      FirebaseFirestore.instance.collection(collectionDbName);
   var userData = {};
   bool isLoading = false;
   @override
@@ -32,6 +39,7 @@ class _FeedScreenState extends State<FeedScreen> {
       });
     }
     try {
+      FirebaseFirestore.instance.collection('users').doc('userId').get();
       var userSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -107,29 +115,106 @@ class _FeedScreenState extends State<FeedScreen> {
                       ));
                     },
                     child: StoryItem(
-                        imageUrl: userData['photoUrl'] ?? '',
-                        username: 'Your Story',
-                        show: true),
+                      imageUrl: userData['photoUrl'] ?? '',
+                      username: 'Your Story',
+                      show: true,
+                    ),
                   ),
-                  // SizedBox(
-                  //   height: 100,
-                  //   child: ListView.builder(
-                  //     shrinkWrap: true,
-                  //     physics: const NeverScrollableScrollPhysics(),
-                  //     scrollDirection: Axis.horizontal,
-                  //     itemCount: storiess.length,
-                  //     itemBuilder: (context, index) {
-                  //       return Padding(
-                  //         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  //         child: StoryItem(
-                  //           imageUrl: storiess[index]['imageUrl'],
-                  //           username: storiess[index]['username'],
-                  //           show: false,
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+                  const SizedBox(width: 5),
+                  SizedBox(
+                    height: 100,
+                    // width: 100,
+                    child: FutureBuilder(
+                      future: FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(widget.uid)
+                          .get(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+
+                          if (snapshot.hasData && snapshot.data!.exists) {
+                            Map<String, dynamic>? userData =
+                                snapshot.data!.data() as Map<String, dynamic>?;
+                            userData =
+                                snapshot.data!.data() as Map<String, dynamic>?;
+                            final username = userData!['username'] ?? '';
+                            final imageUrl = userData['userimage'] ?? '';
+
+                            return Column(
+                              children: [
+                                WGradientRing(
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        imageUrl, // Use the fetched image URL
+                                    imageBuilder: (context, imageProvider) =>
+                                        CircleAvatar(
+                                      backgroundImage: imageProvider,
+                                      radius: 30,
+                                    ),
+                                    placeholder: (context, url) =>
+                                        const CircleAvatar(
+                                      backgroundImage:
+                                          AssetImage('assets/images/2.png'),
+                                      radius: 30,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const CircleAvatar(
+                                      backgroundImage:
+                                          AssetImage('assets/images/2.png'),
+                                      radius: 30,
+                                    ),
+                                  ),
+                                ),
+                                // Container(
+                                //   width: 70,
+                                //   height: 70,
+                                //   decoration: BoxDecoration(
+                                //     gradient: const LinearGradient(
+                                //       colors: [
+                                //         Colors.yellowAccent,
+                                //         Colors.pinkAccent
+                                //       ],
+                                //       begin: Alignment.topLeft,
+                                //       end: Alignment.bottomRight,
+                                //     ),
+                                //     shape: BoxShape.circle,
+                                //     border: Border.all(
+                                //       color: Colors.transparent,
+                                //       width: 0.0,
+                                //     ),
+                                //   ),
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.all(3.0),
+                                //     child:
+
+                                //   ),
+                                // ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  username,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return const Text('User not found');
+                          }
+                        } else {
+                          return const Center(
+                              child:
+                                  CircularProgressIndicator()); // Loading indicator while fetching data
+                        }
+                      },
+                    ),
+                  )
                 ],
               ),
             ),

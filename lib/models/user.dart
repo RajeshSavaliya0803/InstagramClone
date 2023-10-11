@@ -8,6 +8,7 @@ class User {
   final String bio;
   final List followers;
   final List following;
+  final bool? issave;
 
   const User({
     required this.username,
@@ -17,6 +18,7 @@ class User {
     required this.bio,
     required this.followers,
     required this.following,
+    required this.issave,
   });
 
   static User fromSnap(DocumentSnapshot snap) {
@@ -31,17 +33,18 @@ class User {
         bio: snapshot["bio"] ?? "",
         followers: snapshot["followers"] ?? [],
         following: snapshot["following"] ?? [],
+        issave: snapshot["issave"] ?? [],
       );
     } else {
       return const User(
-        username: "",
-        uid: "",
-        email: "",
-        photoUrl: "",
-        bio: "",
-        followers: [],
-        following: [],
-      );
+          username: "",
+          uid: "",
+          email: "",
+          photoUrl: "",
+          bio: "",
+          followers: [],
+          following: [],
+          issave: false);
     }
   }
 
@@ -53,5 +56,6 @@ class User {
         "bio": bio,
         "followers": followers,
         "following": following,
+        "issave": issave,
       };
 }
