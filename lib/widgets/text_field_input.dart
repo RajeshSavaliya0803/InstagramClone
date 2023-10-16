@@ -7,6 +7,7 @@ class TextFieldInput extends StatelessWidget {
   final TextInputType textInputType;
   final Function(String)? onFieldSubmitted;
   final Function(String)? onchanged;
+  final Widget? prefixIcon;
   const TextFieldInput(
       {Key? key,
       required this.textEditingController,
@@ -14,6 +15,7 @@ class TextFieldInput extends StatelessWidget {
       required this.hintText,
       required this.textInputType,
       this.onFieldSubmitted,
+      this.prefixIcon,
       this.onchanged})
       : super(key: key);
 
@@ -28,6 +30,7 @@ class TextFieldInput extends StatelessWidget {
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onchanged,
       decoration: InputDecoration(
+        prefixIcon: prefixIcon,
         hintText: hintText,
         border: inputBorder,
         focusedBorder: inputBorder,

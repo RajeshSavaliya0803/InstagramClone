@@ -163,4 +163,15 @@ class FireStoreMethods {
       if (kDebugMode) print(e.toString());
     }
   }
+
+  Future<String> likecoomentPost(String postId, String userId) async {
+    try {
+      await _firestore.collection('posts').doc(postId).update({
+        'likes': FieldValue.arrayUnion([userId]),
+      });
+      return 'success';
+    } catch (error) {
+      return error.toString();
+    }
+  }
 }

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:instragram_app/screens/story_list.dart';
 import 'package:instragram_app/screens/your_story.dart';
 import 'package:instragram_app/utils/colors.dart';
 import 'package:instragram_app/utils/global_variable.dart';
@@ -81,7 +80,7 @@ class _FeedScreenState extends State<FeedScreen> {
               title: Image.asset(
                 'assets/images/insta.png',
                 fit: BoxFit.fill,
-                height: 80,
+                height: 90,
                 color: primaryColor,
               ),
               actions: [

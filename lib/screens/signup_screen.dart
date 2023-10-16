@@ -170,7 +170,7 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(
                 height: 24,
               ),
-              InkWell(
+              GestureDetector(
                 onTap: signUpUser,
                 child: Container(
                   width: double.infinity,

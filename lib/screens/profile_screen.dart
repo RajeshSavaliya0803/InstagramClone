@@ -6,6 +6,7 @@ import 'package:instragram_app/resources/firestore_methods.dart';
 import 'package:instragram_app/screens/follow_screen.dart';
 import 'package:instragram_app/screens/following_screen.dart';
 import 'package:instragram_app/screens/login_screen.dart';
+import 'package:instragram_app/screens/menu/setting_privacy_screen.dart';
 import 'package:instragram_app/screens/save_posts_screen.dart';
 import 'package:instragram_app/screens/search_screen.dart';
 import 'package:instragram_app/screens/update_profile_screen.dart';
@@ -13,6 +14,7 @@ import 'package:instragram_app/utils/colors.dart';
 import 'package:instragram_app/utils/utils.dart';
 import 'package:instragram_app/widgets/follow_button.dart';
 import 'package:instragram_app/models/user.dart' as model;
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -93,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       isFollowing = userSnap
           .data()!['followers']
           .contains(FirebaseAuth.instance.currentUser!.uid);
-      if (!mounted) {}
+      if (!mounted) return;
       setState(() {});
     } catch (e) {
       showSnackBar(
@@ -541,25 +543,19 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           ),
                                         );
                                       },
-                                      child: SizedBox(
-                                        child: CachedNetworkImage(
-                                          imageUrl: snap['postUrl'] ?? '',
+                                      child: CachedNetworkImage(
+                                        imageUrl: snap['postUrl'] ?? '',
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                          'assets/images/2.png',
                                           fit: BoxFit.cover,
-                                          placeholder: (context, url) =>
-                                              Image.asset(
-                                            'assets/images/2.png',
-                                            fit: BoxFit.cover,
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              Image.asset(
-                                            'assets/images/2.png',
-                                            fit: BoxFit.cover,
-                                          ),
                                         ),
-                                        // Image(
-                                        //   image: NetworkImage(snap['postUrl'] ?? ''),
-                                        //   fit: BoxFit.cover,
-                                        // ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                          'assets/images/2.png',
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     );
                                   },
@@ -628,31 +624,6 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Future<void> signOut() async {
-    final model.User? user = _auth.currentUser as model.User?;
-    try {
-      if (user != null) {
-        await _auth.signOut();
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(widget.uid)
-            .delete();
-        if (!mounted) {}
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
-          ),
-        );
-      } else {}
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
-      );
-    }
-  }
-
   Widget addhelight() {
     return const Padding(
       padding: EdgeInsets.only(right: 10, left: 10),
@@ -684,6 +655,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                         return const SaveAspostScreen();
                       },
                     ));
+                  } else if (index == 0) {
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const SettingsAndPrivacyScreen();
+                      },
+                    ));
+                  } else if (index == 1) {
+                    Navigator.pop(context);
+                    launchURL();
                   }
                 },
               );
@@ -692,5 +673,15 @@ class _ProfileScreenState extends State<ProfileScreen>
         );
       },
     );
+  }
+
+  launchURL() async {
+    const url =
+        'https://play.google.com/store/search?q=threads+from+instagram&c=apps&hl=en-IN';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

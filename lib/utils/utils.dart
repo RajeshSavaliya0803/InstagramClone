@@ -48,3 +48,37 @@ Widget customLoader(BuildContext context) {
     ],
   ));
 }
+
+final List<IconData> instgram = [
+  Icons.notifications_none_sharp,
+  Icons.alarm_outlined,
+];
+
+List instgramtext = ["Notification", "Time Spent"];
+
+final List<IconData> whatyou = [
+  Icons.star_border,
+  Icons.notifications_off_outlined,
+  Icons.video_stable,
+  Icons.favorite_outline,
+];
+
+List whatyoutext = [
+  "Favourites",
+  "Muted accounts",
+  "Suggested content",
+  "Like count"
+];
+
+final List<IconData> content = [
+  Icons.lock_open_outlined,
+  Icons.close_sharp,
+  Icons.block,
+  Icons.hide_source,
+];
+List contenttext = [
+  "Account privacy",
+  "close friends",
+  "Blocked",
+  "Hide story and live"
+];

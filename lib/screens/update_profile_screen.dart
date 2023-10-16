@@ -165,7 +165,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 const SizedBox(
                   height: 24,
                 ),
-                InkWell(
+                GestureDetector(
                   onTap: updateProfile,
                   child: Container(
                     width: double.infinity,

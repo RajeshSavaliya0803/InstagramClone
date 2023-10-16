@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:instragram_app/models/user.dart' as model;
 import 'package:instragram_app/providers/user_provider.dart';
@@ -73,7 +74,7 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
     final width = MediaQuery.of(context).size.width;
-
+    // bool isExpanded = false;
     return Container(
       // boundary needed for web
       decoration: BoxDecoration(
@@ -302,6 +303,7 @@ class _PostCardState extends State<PostCard> {
               ))
             ],
           ),
+
           //DESCRIPTION AND NUMBER OF COMMENTS
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -340,7 +342,7 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                InkWell(
+                GestureDetector(
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Text(
@@ -392,7 +394,7 @@ class _PostCardState extends State<PostCard> {
             .doc(postId)
             .update({'isBookmarked': true});
       }
-
+      if (!mounted) return;
       setState(() {
         isBookmarked = !isBookmarked;
       });

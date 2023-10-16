@@ -63,6 +63,7 @@ dependencies:
   firebase_messaging: ^14.6.9
   permission_handler: ^11.0.1
   flutter_instagram_stories: ^1.0.3+1
+  url_launcher: ^6.1.11
   
   
 

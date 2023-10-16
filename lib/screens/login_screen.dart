@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 24,
               ),
-              InkWell(
+              GestureDetector(
                 onTap: loginUser,
                 child: Container(
                   width: double.infinity,

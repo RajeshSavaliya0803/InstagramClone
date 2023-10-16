@@ -73,6 +73,7 @@ class _SaveAspostScreenState extends State<SaveAspostScreen> {
                 } else {
                   return const Text('No posts available.');
                 }
+                return null;
               });
         },
       ),
